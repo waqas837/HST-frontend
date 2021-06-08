@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { BeatLoader, ClipLoader } from 'react-spinners';
 import axios from 'axios';
 import Loader from 'react-spinners/ClipLoader';
+import Slip from './Slip';
 
 const useStyles = makeStyles(theme=>({
   container: {
@@ -43,6 +44,7 @@ const CartAddedItems = () => {
     const [update, setupdate] = useState([])
     const [input ,setinput] = useState();
     const [open ,setopen] = useState(null)
+    const [openfour ,setopenfour] = useState(false)
     const [loading ,setloading] = useState(null);
     const [stripe ,setstripe] = useState("");
     const [newdata ,setnewdata] = useState("");
@@ -50,6 +52,8 @@ const CartAddedItems = () => {
     const [removeloading,setremoveloading] = useState(false);
     const [loader,setloader] = useState(false)
     const [toloading,settoloading] = useState(null)
+    const [sliploading,setsliploading] = useState(false)
+    const [getslip,setgetslip] = useState(false)
    
    
     // const [data, setdata] = useState('')
@@ -73,15 +77,20 @@ const makePayment = (token) => {
     "Content-Type": "application/json",
   };
   //if we use the axios then we don't need to pass these credetials alright..
-   fetch(`${url}/user/payment`, {
+    fetch(`${url}/user/payment`, {
     method: "POST",
     headers,
     body: JSON.stringify(body),
   })
-    .then((response) =>  setstripe(response))
+    .then((response) => {
+      setgetslip(true)
+      setsliploading(true)
+      setTimeout(() => {
+       setstripe(response)
+      }, 3000);})
     .catch((err) => console.log(`err is here: ${err}`));
 };
-
+ 
   // update data directly to the database
 async function findRecord(id) {
  const email = {user}
@@ -100,7 +109,7 @@ const getData = async () => {
    settoloading(true)
   try {
     const { data } = await axios.get(`${url}/user/getallcartSingle/${email}`);
-    console.log(data.data.length)
+    // console.log(data.data.length)
     if(data.data.length!==0){
       setstate(data.data[0].products);
     }
@@ -115,15 +124,16 @@ const getData = async () => {
 };
 var totalPrice = _.sum(state.map((val)=>(val.price*val.qty)))
 useEffect(()=>{
+window.scrollTo(0,0)
 getData();
 if(stripe.ok){
-  axios.put(`${url}/user/aftersalesemptycart`)
-  .then((resp)=>console.log(resp))
-  .catch((err)=>console.log(err));
-  //  return toast.success("Your account was charged successfully and your order is booked now! Thanks for purchasing !")
+  setsliploading(false)
+  setgetslip(false)
+  window.scrollTo(0,0)
+  setopenfour(true)
   }
   setnewdata({useremail:user,totalprice:totalPrice})
-},[])
+},[stripe])
 
 const user = localStorage.getItem("user")
 
@@ -168,6 +178,15 @@ async function proceed(id) {
 // console.log(data);
     return (
         <div>
+        {/* just show a load message to user while slip comes*/}
+        {sliploading?<Dialog
+        open={getslip}
+        onClose={()=>setgetslip(false)}
+        >
+        <Box style={{padding:"10px",color:"#c51162"}}><Typography variant="h6">Just Take Your Slip...</Typography></Box>
+        </Dialog>:null}
+        {/* slip for the user */}
+        <Slip openfour={openfour} setopenfour={setopenfour} state={state}/>
         {/* DIALOG FOR THE QTY*/}
         <Toaster
          toastOptions={{displayTime:"30"}}

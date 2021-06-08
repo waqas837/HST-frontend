@@ -88,7 +88,7 @@ function App() {
           <Navbar/>
           <UserPriceCalculator/>
           <Footer/>
-            {/* see sll pt */}
+            {/* see all pt */}
           </Route>
 
           <Route exact path="/admin/services">
@@ -100,6 +100,12 @@ function App() {
           </Route>
           <Route exact path="/singleservice/:id">
             <SingleServiceDetails/>
+          </Route>
+           {/* about us nav page */}
+        <Route exact path="/about us">
+            <Navbar/>
+            <About/>
+            <Footer/>
           </Route>
         </Router>
       </div>

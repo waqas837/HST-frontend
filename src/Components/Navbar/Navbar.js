@@ -251,7 +251,7 @@ useEffect(() => {
             style={{ fontSize: "10px" }}
             size="small"
             className={classes.title}
-            onClick={() => history.push("/")}
+            exact
             activeClassName={classes.activeClass}
             to="/"
             component={NavLink}
@@ -264,7 +264,8 @@ useEffect(() => {
             size="small"
             className={classes.title}
             activeClassName={classes.activeClass}
-            to="/aboutus"
+            exact
+            to="/about us"
             component={NavLink}
           >
             About Us
