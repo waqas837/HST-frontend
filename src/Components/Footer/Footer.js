@@ -1,6 +1,8 @@
-import React from 'react'
+import React,{useEffect,useState}from 'react'
 import {Grid, Typography,Container,Box,IconButton,makeStyles} from "@material-ui/core"
-import {Facebook,Instagram,PhoneOutlined,} from "@material-ui/icons"
+import {Facebook,Instagram,PhoneOutlined} from "@material-ui/icons"
+import {url} from "../../Api/ApiRoutes"
+import axios from "axios"
 import img from "../../images/logo.png";
 import { Icon } from '@iconify/react';
 import twitterIcon from '@iconify-icons/mdi/twitter';
@@ -14,6 +16,28 @@ const useStyles = makeStyles((theme) => ({
   }));
 const Footer = () => {
       const classes = useStyles();
+      const [state, setstate] = useState([])
+      const [services, setservices] = useState([])
+      const [loading, setloading] = useState(false)
+      useEffect(()=>{
+        getData()
+        getServices()
+      },[])
+      //products title
+      const getData = async () => {
+        setloading(true);
+        const { data } = await axios.get(`${url}/user/getProduct`);
+        setstate(data.data);
+        setloading(false);
+      };
+      //services title
+      const getServices = async () => {
+        setloading(true);
+        const { data } = await axios.get(`${url}/user/getServices`);
+        setservices(data.data);
+        setloading(false);
+      };
+    
     return (
         <div style ={{marginTop:"50px",marginBottom:"50px"}}>
           <Container maxWidth="md">
@@ -46,38 +70,42 @@ const Footer = () => {
      <Box mr={4} style={{marginLeft:"60px"}}>
      <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Products</Typography><br/>
-    <Typography variant="body1" color="initial"
-    >Products1</Typography><br/><Typography variant="body1" color="initial"
-    >Products2</Typography><br/><Typography variant="body1" color="initial"
-    >Products3</Typography><br/>
-    <Typography variant="body1" color="initial"
-    >Products4</Typography>
+    {
+        state.map((val)=>(
+            <Box mb={2}><Typography variant="body1" color="initial"
+    >{val.title}</Typography> </Box>
+        ))
+    }
+    
      </Box>
      
      <Box mr={4}>
      <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Services</Typography><br/>
-    <Typography variant="body1" color="initial"
-    >Services1</Typography><br/><Typography variant="body1" color="initial"
-    >Services2</Typography><br/><Typography variant="body1" color="initial"
-    >Services3</Typography><br/><Typography variant="body1" color="initial"
-    >Services4</Typography>
+    {
+        services.map((val)=>(
+            <Box mb={2}>
+            <Typography variant="body1" color="initial"
+    >{val.title}</Typography>
+            </Box>
+        ))
+    } 
      </Box>
     <Box mr={4}>
     <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Resources
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources1
+    >Home
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources2
+    >Contact
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources3
+    >About Us
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources4
+    >Cart
      </Typography>
     </Box>
     
@@ -90,38 +118,39 @@ const Footer = () => {
      <Box mr={4} style={{marginLeft:"60px"}}>
      <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Products</Typography><br/>
-    <Typography variant="body1" color="initial"
-    >Products1</Typography><br/><Typography variant="body1" color="initial"
-    >Products2</Typography><br/><Typography variant="body1" color="initial"
-    >Products3</Typography><br/>
-    <Typography variant="body1" color="initial"
-    >Products4</Typography>
+    {state.map((val)=>
+        <Box mb={2}><Typography variant="body1" color="initial"
+    >{val.title}</Typography> </Box> 
+    )}
      </Box>
      
      <Box mr={4}>
      <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Services</Typography><br/>
-    <Typography variant="body1" color="initial"
-    >Services1</Typography><br/><Typography variant="body1" color="initial"
-    >Services2</Typography><br/><Typography variant="body1" color="initial"
-    >Services3</Typography><br/><Typography variant="body1" color="initial"
-    >Services4</Typography>
+    {
+        services.map((val)=>(
+            <Box mb={2}>
+            <Typography variant="body1" color="initial"
+    >{val.title}</Typography>
+            </Box>
+        ))
+    }
      </Box>
     <Box mr={4}>
     <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Resources
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources1
+    >Home
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources2
+    >Contact 
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources3
+    >About Us
      </Typography><br/>
      <Typography variant="body1" color="initial"
-    >Resources4
+    >Cart
      </Typography>
     </Box>
     

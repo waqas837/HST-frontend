@@ -34,7 +34,10 @@ const useStyles = makeStyles(theme=>({
     [theme.breakpoints.down('sm')]:{
       fontSize:"100%"
     }
-  }
+  },
+   blur:{
+     backdropFilter:"blur(4px)"
+   }
 
 }));
 
@@ -54,7 +57,8 @@ const CartAddedItems = () => {
     const [toloading,settoloading] = useState(null)
     const [sliploading,setsliploading] = useState(false)
     const [getslip,setgetslip] = useState(false)
-   
+    const [thanks ,setthanks] =useState(false)
+
    
     // const [data, setdata] = useState('')
     const [loadingtable, setloadingtable] = useState(null);
@@ -182,11 +186,14 @@ async function proceed(id) {
         {sliploading?<Dialog
         open={getslip}
         onClose={()=>setgetslip(false)}
+        BackdropProps={{
+          classes:{root:classes.blur}
+        }}
         >
         <Box style={{padding:"10px",color:"#c51162"}}><Typography variant="h6">Just Take Your Slip...</Typography></Box>
         </Dialog>:null}
         {/* slip for the user */}
-        <Slip openfour={openfour} setopenfour={setopenfour} state={state}/>
+        <Slip openfour={openfour} setopenfour={setopenfour} state={state}  thanks={thanks} setthanks={setthanks}/>
         {/* DIALOG FOR THE QTY*/}
         <Toaster
          toastOptions={{displayTime:"30"}}
