@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import logo from "../../images/logo.png";
 import { useHistory, NavLink } from "react-router-dom";
 import { grey, yellow } from "@material-ui/core/colors";
-import {Zoom} from "@material-ui/core"
+import { Zoom } from "@material-ui/core";
 import { ClipLoader } from "react-spinners";
 import { Menu, PowerSettingsNew } from "@material-ui/icons";
 import axios from "axios";
-import {url} from "../../Api/ApiRoutes"
-import Register from "../RegisterDialog/Register"
+import { url } from "../../Api/ApiRoutes";
+import Register from "../RegisterDialog/Register";
 import {
   Close,
   ExpandMore,
@@ -15,9 +15,12 @@ import {
   PhoneIphone,
   Search,
   ShoppingCart,
+  ContactSupport,
 } from "@material-ui/icons";
 import {
   AppBar,
+  Badge,
+  Tooltip,
   Toolbar,
   Typography,
   Button,
@@ -74,12 +77,12 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid white",
     borderRadius: "0px",
   },
-  outlinedInput:{
-    fontSize:"12px",
-    width:"180px",
-    height:"35px",
-    background:"white"
-  }
+  outlinedInput: {
+    fontSize: "12px",
+    width: "180px",
+    height: "35px",
+    background: "white",
+  },
 }));
 //main component starts here
 const Navbar = () => {
@@ -91,37 +94,35 @@ const Navbar = () => {
   const [search, setsearch] = useState(false);
   const [checked, setChecked] = React.useState(true);
   //accessing global state
- 
 
   const [length, setlength] = useState([]);
   // const [state, setstate] = useState()
 
-useEffect(() => {
-  getlenghtData();
-}, [length])
+  useEffect(() => {
+    getlenghtData();
+  }, [length]);
 
   const getlenghtData = async () => {
-    const email = {user}
+    const email = { user };
     const { data } = await axios.get(`${url}/user/getallcartSingle/${user}`);
-     if(data.data.length!==0){
+    if (data.data.length !== 0) {
       setlength(data.data[0].products);
     }
-   };
+  };
   // here is the sign in functionality
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   //logout
   function logout() {
     localStorage.removeItem("user");
-    window.location.reload()
+    window.location.reload();
   }
   const classes = useStyles();
   //FOR dialgoue signup functionality starts here
   // const user = localStorage.getItem("user");
-  useEffect(() => {
-  },[user]);
+  useEffect(() => {}, [user]);
   const showAddedToCartItems = () => {
     history.push("/YourItems");
   };
@@ -132,11 +133,15 @@ useEffect(() => {
       {/*Start dialogue for sign in functionality */}
       <CssBaseline />
       {/* Register dialogue is here */}
-      <Register setOpentwo={setOpentwo} opentwo={opentwo}/>
-      <LoginDialog setOpentwo={setOpentwo} opentwo={opentwo} setOpen={setOpen} open={open}/>
-      
+      <Register setOpentwo={setOpentwo} opentwo={opentwo} />
+      <LoginDialog
+        setOpentwo={setOpentwo}
+        opentwo={opentwo}
+        setOpen={setOpen}
+        open={open}
+      />
+
       {/* End functionality for sign in dialouge */}
-     
 
       {/* Here we have the drawere functionality */}
       <DrawerData opendrawer={opendrawer} setopendrawer={setopendrawer} />
@@ -314,40 +319,54 @@ useEffect(() => {
 
           <>
             <Box style={{ marginLeft: "auto" }}>
-             {!user?<> <Button
-                size="small"
-                onClick={() => setOpentwo(true)}
-                style={{ fontSize: "10px", fontWeight: "bold" }}
-              >
-                Register
-              </Button>
-              
-              <Button
-                style={{
-                  fontSize: "10px",
-                  marginLeft: "-10px",
-                  marginRight: "15px",
-                  fontWeight: "bold",
-                }}
-                size="small"
-                onClick={() => setOpen(true)}
-              >
-                Sign in
-              </Button></>:null}
-              {user?<Button
-              onClick={()=>history.push("/userDashboard")}
-                style={{
-                  backgroundColor: "rgb(0,7,44)",
-                  color: "white",
-                  fontSize: "10px",
-                  marginRight: "15px",
-                  borderRadius: "0px",
-                  height: "35px",
-                }}
-                size="small"
-              >
-                User Dashboard
-              </Button>:null}
+              {!user ? (
+                <>
+                  {" "}
+                  <Button
+                    size="small"
+                    onClick={() => setOpentwo(true)}
+                    style={{ fontSize: "10px", fontWeight: "bold" }}
+                  >
+                    Register
+                  </Button>
+                  <Button
+                    style={{
+                      fontSize: "10px",
+                      marginLeft: "-10px",
+                      marginRight: "15px",
+                      fontWeight: "bold",
+                    }}
+                    size="small"
+                    onClick={() => setOpen(true)}
+                  >
+                    Sign in
+                  </Button>
+                </>
+              ) : null}
+              <Tooltip title="Customer Support Service" arrow="top">
+                <IconButton onClick={() => history.push("/help")}>
+                  <ContactSupport
+                    fontSize="large"
+                    style={{ color: "rgb(0,7,44)" }}
+                  />
+                </IconButton>
+              </Tooltip>
+              {user ? (
+                <Button
+                  onClick={() => history.push("/userDashboard")}
+                  style={{
+                    backgroundColor: "rgb(0,7,44)",
+                    color: "white",
+                    fontSize: "10px",
+                    marginRight: "15px",
+                    borderRadius: "0px",
+                    height: "35px",
+                  }}
+                  size="small"
+                >
+                  User Dashboard
+                </Button>
+              ) : null}
 
               <Button
                 style={{
@@ -359,69 +378,70 @@ useEffect(() => {
                   height: "35px",
                 }}
                 size="small"
-                onClick={()=>history.push("/calculatePrice")}
+                onClick={() => history.push("/calculatePrice")}
               >
                 Price Calculator
               </Button>
-              
-              {search?<Zoom
-              in={checked}
-              appear={true}
-              onExit={{padding:"100px"}}
-              ><OutlinedInput
-              autoComplete={false} 
-              placeholder="Search Products.."
-              className={classes.outlinedInput}
-              startAdornment={<IconButton
-              onClick={()=>setsearch(false)}
-              size="small"
-              style={{cursor:"pointer"}}
-              ><Close 
-                color="secondary"
-                style={{fontSize:"15px"}}
-                />
-                </IconButton>} 
-              endAdornment={<IconButton
-              size="small"
-              style={{cursor:"pointer"}}
-              ><Search 
-                fontSize="small"
-                />
-                </IconButton>}/></Zoom>:<IconButton
-                 onMouseOver={()=>setsearch(true)}
-                 style={{ marginRight: "15px" }}
-                 size="small"
-              >
-                <Search style={{ color: "black" }} fontSize="small" />
-              </IconButton>}
-              {user?<>
-                <IconButton size="small" onClick={showAddedToCartItems}>
-                <ShoppingCart fontSize="small" style={{ color: "black" }} />
-              </IconButton>
-              <span
-                style={{
-                  background: "red",
-                  color: "white",
-                  fontSize: "10px",
-                  paddingLeft: "7px",
-                  paddingRight: "7px",
-                  paddingTop: "5px",
-                  paddingBottom: "5px",
-                  textAling: "center",
-                  borderRadius: "90px",
-                  marginLeft: "-5px",
-                }}
-              >
-                {length.length}
-              </span>
-              </>
-              :null}
-             {user?<Button
-                size="small"
-                onClick={logout}
-                style={{ fontSize: "13px", fontWeight: "bold",marginLeft:"10px"}}
-              ><PowerSettingsNew fontSize="small"/> &nbsp;Logout
-              </Button>:null}
+
+              {search ? (
+                <Zoom in={checked} appear={true} onExit={{ padding: "100px" }}>
+                  <OutlinedInput
+                    autoComplete={false}
+                    placeholder="Search Products.."
+                    className={classes.outlinedInput}
+                    startAdornment={
+                      <IconButton
+                        onClick={() => setsearch(false)}
+                        size="small"
+                        style={{ cursor: "pointer" }}
+                      >
+                        <Close color="secondary" style={{ fontSize: "15px" }} />
+                      </IconButton>
+                    }
+                    endAdornment={
+                      <IconButton size="small" style={{ cursor: "pointer" }}>
+                        <Search fontSize="small" />
+                      </IconButton>
+                    }
+                  />
+                </Zoom>
+              ) : (
+                <IconButton
+                  onMouseOver={() => setsearch(true)}
+                  style={{ marginRight: "15px" }}
+                  size="small"
+                >
+                  <Search style={{ color: "black" }} fontSize="small" />
+                </IconButton>
+              )}
+              {user ? (
+                <span>
+                  <IconButton
+                    size="small"
+                    onClick={showAddedToCartItems}
+                    aria-label="cart"
+                  >
+                    <Badge badgeContent={length.length} color="secondary">
+                      <ShoppingCart
+                        style={{ color: "black" }}
+                      />
+                    </Badge>
+                  </IconButton>
+                </span>
+              ) : null}
+              {user ? (
+                <Button
+                  size="small"
+                  onClick={logout}
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: "bold",
+                    marginLeft: "10px",
+                  }}
+                >
+                  <PowerSettingsNew fontSize="small" /> &nbsp;Logout
+                </Button>
+              ) : null}
             </Box>
           </>
         </Toolbar>

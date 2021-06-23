@@ -94,7 +94,8 @@ const Admin = () => {
   const [opendrawertwo, setopendrawertwo] = useState(false);
   const [OpenAdmin, setOpenAdmin] = useState(false);
   const [statenew, setstatenew] = useState();
-
+//
+ 
   // admin logout
   const logoutAdmin = () => {
     localStorage.removeItem("admin");
@@ -439,11 +440,14 @@ const Admin = () => {
       </Dialog>
 
       {admin ? (
+        <span>
         <Typography
         variant="h5"
         color="secondary"
         style={{textAlign:"center"}}
         >welcome admin</Typography>
+     
+    </span>
       ) : (
         <Container maxWidth="sm">
           <Grid container component={Box} my={3}>

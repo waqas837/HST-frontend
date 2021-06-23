@@ -27,6 +27,7 @@ import {
   Dialog,
   Button,
   Input,
+  DialogContent,
   DialogContentText,
   DialogTitle,
   makeStyles,
@@ -86,13 +87,11 @@ const ProductPanel = () => {
   const [loadingS, setloadingS] = useState(false);
   const [opentwo, setOpentwo] = useState(false);
   const [openthree, setOpenthree] = useState(false);
-  // this is for add hotel manager
-  const [openfour, setopenfour] = useState(false);
   const [id, setid] = useState();
   const [update, setupdate] = useState();
-  const [emailpattern, setemailpattern] = useState(true);
-const [opendrawer,setopendrawer] = useState(false);
-const [opendrawertwo,setopendrawertwo] = useState(false);
+  const [editload, seteditload] = useState(null);
+  const [opendrawer,setopendrawer] = useState(false);
+ 
   // add a new user
   async function addProduct(e) {
     e.preventDefault();
@@ -141,12 +140,14 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
     setOpentwo(false);
   }
   async function edit(id) {
+    seteditload(true)
     setOpentwo(true);
     setid(id);
     const { data } = await axios.get(
       `${url}/user/findSingleProduct/${id}`
     );
     setupdate(data.data);
+    seteditload(false)
   }
   // UPDATE User
   async function updateProduct() {
@@ -303,7 +304,20 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
               <Filebase type="file" multiple={false}
               onDone={({ base64 }) => setstateS({ ...stateS, selectedFile: base64 })} />
               <br />
-              <br />
+               
+              <Input
+                fullWidth
+                onChange={(e) =>
+                  setstateS({ ...stateS,view: e.target.value })
+                }
+                endAdornment={
+                  <Description color="primary" fontSize="small" />
+                }
+                type="text"
+                placeholder="Enter image link for 360 view"
+                style={{ marginBottom: "10px",marginTop:"9px" }}
+               
+              />
               {loadingS ? (
                 <Button
                   fullWidth
@@ -365,7 +379,7 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
             </Grid>
           </Grid>
         </DialogTitle>
-        <DialogContentText>
+        <DialogContent>
           <Divider />
 
           <Container>
@@ -376,7 +390,10 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
                 <ClipLoader />
               ) : (
                 <>
-                  <Input
+                  {
+                    editload?<p>...</p>:
+                    <div>
+                    <Input
                     onChange={(e) =>
                       setstateS({ ...stateS, title: e.target.value })
                     }
@@ -405,9 +422,22 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
                     style={{ marginBottom: "10px" }}
                     defaultValue={update.description===""?<ClipLoader size="5"/>:update.description}
                   />
+                  
                    <Filebase type="file" multiple={false}
                    onDone={({ base64 }) => setstateS({ ...stateS, selectedFile: base64 })} />
                    <img src={update.selectedFile} width="50px" height="50px" style={{borderRadius:"20px",marginLeft:"-120px"}} alt=""/>
+                <br />
+                <Input
+                    onChange={(e) =>
+                      setstateS({ view: e.target.value })
+                    }
+                    type="text"
+                    placeholder="Enter image link for 360 view"
+                    style={{ marginBottom: "10px" }}
+                    defaultValue={update.description===""?<ClipLoader size="5"/>:update.view}
+                  />
+                  </div>
+                  }
                 </>
               )}
 
@@ -420,6 +450,7 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
                     marginBottom: "10px",
                     backgroundColor: "rgb(254,181,2)",
                     color: "black",
+                    borderRadius:"0px"
                   }}
                   color="primary"
                  startIcon={<ClipLoader size="10" color="black"/>}
@@ -433,6 +464,7 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
                     marginBottom: "10px",
                     backgroundColor: "rgb(254,181,2)",
                     color: "black",
+                    borderRadius:"0px"
                   }}
                   color="primary"
                   onClick={updateProduct}
@@ -442,7 +474,7 @@ const [opendrawertwo,setopendrawertwo] = useState(false);
               )}
             </Box>
           </Container>
-        </DialogContentText>
+        </DialogContent>
       </Dialog>
     <Container>
     <Grid container component={Box} ml={1} mt={3} textAlign="center">

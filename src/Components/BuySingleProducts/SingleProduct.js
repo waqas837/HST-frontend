@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {useDispatch,useSelector} from "react-redux";
+import Iframe from 'react-iframe'
 import * as action from "../Redux/actions/Actions"
 import {
   Button,
@@ -238,10 +239,23 @@ const addToCart = async (itemID)=>{
                 Add to cart
               </Button>
               </Box>
+               
             </>
           )}
         </Grid>
       </Grid>
+      
+        {/* iframe */}
+        <Box textAlign="center" my={3}>
+        <Iframe url={state.view}
+        width="100%"
+        height="370px"
+        id="myId"
+        className="myClassname"
+        display="initial"
+        position="relative"/>
+              </Box>
+     
       <Divider
         style={{ marginTop: "10px", height: "1px", background: "grey" }}
       />

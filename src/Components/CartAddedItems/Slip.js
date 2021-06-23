@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Box, Button, Container, Dialog, DialogActions, DialogTitle, Divider, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core'
-import { CheckCircleOutline, Close, RateReview, ThumbUp } from '@material-ui/icons'
+import { CheckCircleOutline, Close, RateReview } from '@material-ui/icons'
 import axios from "axios"
 import toast, { Toaster } from 'react-hot-toast';
 import ReactTOPdf from "react-to-pdf"
@@ -81,14 +81,14 @@ const Slip = ({openfour,setopenfour,state}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {state.map((row,index) => (
+          {state.map((row,index) => row.qty>0 &&
             <TableRow key={index}>
               <TableCell component="th" scope="row">
               <CheckCircleOutline fontSize="large" color="primary"/> <img src={row.selectedFile}  width="70px" height="70px" alt=""/>
               </TableCell>
               <TableCell align="left">Rs.{row.price}/-</TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </TableContainer>

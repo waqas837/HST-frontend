@@ -165,7 +165,7 @@ console.log(data)
 <Hidden only={['md','lg','xl']}>
 <br />
 <Box>
-<Box><Typography variant="h6" color="primary" style={{marginRight:"10px"}}>1 Marla Price Small Stones:</Typography></Box>  
+<Box><Typography variant="h6" color="primary" style={{marginRight:"10px"}}>1 Marla Price Bricks:</Typography></Box>  
 <Box ml="auto"><TextField onChange={(e)=>setstate({...state,qtyForSmallStones:e.target.value})} InputProps={{ inputProps: { min: 0} }} type="number" placeholder="Quantity Kg" style={{height:"35px",width:"120px",marginRight:"5px"}}/></Box> 
 <Box ml="auto"><TextField onChange={(e)=>setstate({...state,SmallStonesPrice:e.target.value})} placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
 </Box>
@@ -174,7 +174,7 @@ console.log(data)
 {/* 1 marla price small stones:hidden only for small screens */}
 <Hidden only={['xs','sm']}>
 <Box style={{display:"flex",marginLeft:"60px",marginBottom:"20px"}}>
-<Box><Typography variant="subtitle1" color="primary" style={{marginRight:"10px",maxWidth:"130px" }}>1 Marla Price Small Stones:</Typography></Box>  
+<Box><Typography variant="subtitle1" color="primary" style={{marginRight:"10px",maxWidth:"130px" }}>1 Marla Price Bricks:</Typography></Box>  
 <Box ml="auto"><TextField onChange={(e)=>setstate({...state,qtyForSmallStones:e.target.value})} InputProps={{ inputProps: { min: 0} }} type="number" placeholder="Quantity Kg" style={{height:"35px",width:"120px",marginRight:"5px"}}/></Box> 
 <Box ml="auto"><TextField onChange={(e)=>setstate({...state,SmallStonesPrice:e.target.value})} placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
 </Box>

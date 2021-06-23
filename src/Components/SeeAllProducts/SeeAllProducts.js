@@ -53,6 +53,7 @@ const SeeAllProducts = () => {
     const getData = async () => {
         setloading(true);
         const { data } = await axios.get(`${url}/user/getAllTheProduct`);
+        console.log(data);
         setstate(data.data);
         setloading(false);
       };
@@ -138,7 +139,9 @@ const SeeAllProducts = () => {
          <Typography className={classes.titleResp} variant="h5">
             {val.title}
          </Typography>
-       
+         <Typography className={classes.titleResp} variant="h5">
+           {val.veiw}
+         </Typography>
      <Grade style={{color:"rgb(254,181,2)"}}/>
      <Grade style={{color:"rgb(254,181,2)"}}/>
      <Grade style={{color:"rgb(254,181,2)"}}/>

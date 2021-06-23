@@ -1,6 +1,5 @@
 import "./App.css";
 import React,{useEffect,useState} from "react";
-
 import {useDispatch} from "react-redux"
 import Navbar from "./Components/Navbar/Navbar";
 import {createMuiTheme, ThemeProvider } from "@material-ui/core";
@@ -26,6 +25,8 @@ import SingleServiceDetails from "./Components/Services/SingleServiceDetails";
 import SeeAllProducts from "./Components/SeeAllProducts/SeeAllProducts"
 import PriceCalculator from "./Components/PriceCalculator/PriceCalculator";
 import UserPriceCalculator from "./Components/PriceCalculatorUser/UserPriceCalculator";
+import Help from "./Components/Help/Help";
+
 const font = "'Roboto', sans-serif;";
 const theme = createMuiTheme({
   typography: {
@@ -107,6 +108,12 @@ function App() {
             <About/>
             <Footer/>
           </Route>
+          <Route exact path="/help">
+            <Navbar/>
+            <Help/>
+            <Footer/>
+          </Route>
+
         </Router>
       </div>
     </ThemeProvider>
