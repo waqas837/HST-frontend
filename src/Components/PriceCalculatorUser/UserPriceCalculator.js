@@ -67,10 +67,10 @@ const UserPriceCalculator = () => {
     useEffect(()=>{
         getCalData()
     },[])
-    var nan = isNaN(data.OneMarlaPrice*state.qtyForSmallStones*data.SmallStonesPrice)
-    var nan1 = isNaN(data.OneMarlaPrice*state.qtyForCement*data.CementPrice)
-    var nan2 = isNaN(data.OneMarlaPrice*state.qtyForSand*data.SandPrice)
-    var nan3 = isNaN(data.OneMarlaPrice*state.qtyForSmallStones*data.SmallStonesPrice &&data.OneMarlaPrice*state.qtyForCement*data.CementPrice && data.OneMarlaPrice*state.qtyForSand*data.SandPrice)
+    var nan = isNaN(state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice)
+    var nan1 = isNaN(state.mymarlas*data.CementPrice*data.CementPrice )
+    var nan2 = isNaN(state.mymarlas*data.SandPrice*data.SandPrice)
+    var nan3 = isNaN(state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice+state.mymarlas*data.CementPrice*data.CementPrice+state.mymarlas*data.SandPrice*data.SandPrice)
     
     async function getCalData (){
   try {
@@ -147,7 +147,7 @@ const UserPriceCalculator = () => {
 }
  </Box>
 <Box textAlign="center" style={{border:"1px solid black",marginBottom:"5px"}}><Typography variant="subtitle1" color="secondary">
-Bricks Cost:{state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice}/-</Typography></Box>
+Bricks Cost:{nan?0:state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice}/-</Typography></Box>
 </Hidden>
 
 <Box mb={5}>
@@ -167,10 +167,10 @@ Bricks Cost:{state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice}/-</Typo
 <Box><Typography variant="subtitle1" color="primary" style={{marginRight:"10px",maxWidth:"130px" }}>1 Marla Price Bricks:</Typography></Box>  
 <Box ml="auto"><TextField  placeholder="No of bricks"
 onChange={(e)=>setstate({...state,qtyForSmallStones:e.target.value})} InputProps={{ inputProps: { min: 0} }} type="number" value={state.mymarlas*100} disabled style={{height:"35px",width:"120px",marginRight:"5px"}}/></Box> 
-{loadings?<CircularProgress/>:<Box ml="auto"><TextField disabled defaultValue={data.SmallStonesPrice}   placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
-}
+{/* {loadings?<CircularProgress/>:<Box ml="auto"><TextField disabled defaultValue={data.SmallStonesPrice}   placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
+} */}
 </Box>
-<Box textAlign="center" style={{border:"1px solid black",marginBottom:"5px"}}><Typography variant="subtitle1" color="secondary">Bricks Cost:{state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice}/-</Typography></Box>
+<Box textAlign="center" style={{border:"1px solid black",marginBottom:"5px"}}><Typography variant="subtitle1" color="secondary">Bricks Cost:{nan?0:state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice}/-</Typography></Box>
 </Hidden>
 
 {/* 1 marla price for cement:hidden only for large screens  */}
@@ -179,25 +179,25 @@ onChange={(e)=>setstate({...state,qtyForSmallStones:e.target.value})} InputProps
 <Box>
 <Box><Typography variant="h6" color="primary" style={{maxWidth:"130px"}} >1 Marla Price Cement:</Typography></Box>  
 <Box ml="auto"><TextField onChange={(e)=>setstate({...state,qtyForCement:e.target.value})} disabled value={state.mymarlas*data.CementPrice} InputProps={{ inputProps: { min: 0} }} type="number"   disabled style={{height:"35px",width:"120px",marginRight:"5px"}}/></Box> 
-{loadings?<p>l<CircularProgress/></p>:<Box ml="auto"><TextField disabled defaultValue={data.CementPrice}  placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
-}
+{/* {loadings?<p>l<CircularProgress/></p>:<Box ml="auto"><TextField disabled defaultValue={data.CementPrice}  placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
+} */}
  </Box>
 <Box textAlign="center" style={{border:"1px solid black",marginBottom:"5px"}}><Typography variant="subtitle1" color="secondary">
-Cement Cost:{state.mymarlas*data.CementPrice*data.CementPrice }/- </Typography></Box>
+Cement Cost:{nan1?0:state.mymarlas*data.CementPrice*data.CementPrice }/- </Typography></Box>
 </Hidden>
 {/* 1 marla price for cement:hidden only for small screens  */}
 <Hidden only={['xs','sm']}>
 <Box style={{display:"flex",marginLeft:"60px",marginBottom:"20px"}}>
 <Box><Typography variant="subtitle1" color="primary" style={{maxWidth:"130px"}} >1 Marla Price Cement:</Typography></Box>  
 <Box ml="auto"><TextField onChange={(e)=>setstate({...state,qtyForCement:e.target.value})} disabled value={state.mymarlas*data.CementPrice} InputProps={{ inputProps: { min: 0} }} type="number" placeholder="Quantity Kg" style={{height:"35px",width:"120px",marginRight:"5px"}}/></Box> 
-{loadings?<p>l<CircularProgress/></p>:<Box ml="auto"><TextField disabled defaultValue={data.CementPrice}  placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
-}
+{/* {loadings?<p>l<CircularProgress/></p>:<Box ml="auto"><TextField disabled defaultValue={data.CementPrice}  placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
+} */}
 
 
 
 </Box>
 <Box textAlign="center" style={{border:"1px solid black",marginBottom:"5px"}}><Typography variant="subtitle1" color="secondary">
-Cement Cost:{state.mymarlas*data.CementPrice*data.CementPrice}/- </Typography></Box>
+Cement Cost:{nan1?0:state.mymarlas*data.CementPrice*data.CementPrice}/- </Typography></Box>
 
 </Hidden>
 
@@ -210,10 +210,10 @@ Cement Cost:{state.mymarlas*data.CementPrice*data.CementPrice}/- </Typography></
 <Box>
 <Box><Typography variant="h6" color="primary" style={{marginRight:"10px",maxWidth:"130px"}}>1  Marla Price Sand:</Typography></Box>  
 <Box ml="auto"><TextField disabled value={state.mymarlas*data.SandPrice} onChange={(e)=>setstate({...state,qtyForSand:e.target.value})} InputProps={{ inputProps: { min: 0} }} type="number" placeholder="Quantity Kg" style={{height:"35px",width:"120px",marginRight:"5px"}}/></Box> 
-{loadings?<p>l<CircularProgress/></p>:<Box ml="auto" ><TextField  disabled defaultValue={data.SandPrice} placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
-}
+{/* {loadings?<p>l<CircularProgress/></p>:<Box ml="auto" ><TextField  disabled defaultValue={data.SandPrice} placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
+} */}
 </Box>
-<Box style={{border:"1px solid black",marginBottom:"5px"}} textAlign="center"><Typography variant="subtitle1" color="secondary">Sand Cost:{state.mymarlas*data.SandPrice*data.SandPrice}/- </Typography></Box>
+<Box style={{border:"1px solid black",marginBottom:"5px"}} textAlign="center"><Typography variant="subtitle1" color="secondary">Sand Cost:{ nan2 ?0:state.mymarlas*data.SandPrice*data.SandPrice}/- </Typography></Box>
 
 </Hidden>
 {/* 1 marla price for sand hidden only for small screens */}
@@ -221,11 +221,11 @@ Cement Cost:{state.mymarlas*data.CementPrice*data.CementPrice}/- </Typography></
 <Box style={{display:"flex",marginLeft:"60px",marginBottom:"20px"}}>
 <Box><Typography variant="subtitle1" color="primary" style={{marginRight:"10px",maxWidth:"130px"}}>1  Marla Price Sand:</Typography></Box>  
 <Box ml="auto"><TextField disabled value={state.mymarlas*data.SandPrice}  onChange={(e)=>setstate({...state,qtyForSand:e.target.value})} InputProps={{ inputProps: { min: 0} }} type="number" placeholder="Quantity Kg" style={{height:"35px",width:"120px",marginRight:"5px"}}/></Box> 
-{loadings?<p>l<CircularProgress/></p>:<Box ml="auto" ><TextField  disabled defaultValue={data.SandPrice} placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
-}
+{/* {loadings?<p>l<CircularProgress/></p>:<Box ml="auto" ><TextField  disabled defaultValue={data.SandPrice} placeholder="Price" style={{height:"35px",width:"120px"}}/></Box>
+} */}
 </Box>
 <Box style={{border:"1px solid black",marginBottom:"5px"}} textAlign="center"><Typography variant="subtitle1" color="secondary">
-Sand Cost:{state.mymarlas*data.SandPrice*data.SandPrice}/- </Typography></Box>
+Sand Cost:{nan2 ?0:state.mymarlas*data.SandPrice*data.SandPrice}/- </Typography></Box>
 
 </Hidden>
 {/* save your record */}
@@ -243,7 +243,7 @@ variant="contained"
 <div>
 <Box my={2} style={{border:"1px solid black"}}> <Typography variant="subtitle1" color="secondary">
 Total amount:
-{state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice+state.mymarlas*data.CementPrice*data.CementPrice+state.mymarlas*data.SandPrice*data.SandPrice}</Typography>
+{nan3?0:state.mymarlas*data.SmallStonesPrice*data.SmallStonesPrice+state.mymarlas*data.CementPrice*data.CementPrice+state.mymarlas*data.SandPrice*data.SandPrice}</Typography>
 </Box>
 <ReactTOPdf targetRef={ref} >
           {({ toPdf }) => 

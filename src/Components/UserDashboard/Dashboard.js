@@ -131,7 +131,8 @@ const Dashboard = () => {
     //show full list data get
     const getData = async () => {
       setloadingtable(true)
-      const { data } = await axios.get(`${url}/user/orders`);
+      const { data } = await axios.get(`${url}/user/orders/${user}`);
+      console.log(data)
       setstate(data.data);
       setloadingtable(false)
     };

@@ -113,7 +113,11 @@ const Navbar = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+// const verifyUser = async () =>{
+// const {data} = await axios.get(`${url}/user/verifyUser/${user}`)
+// console.log(data)
 
+// }
   //logout
   function logout() {
     localStorage.removeItem("user");
