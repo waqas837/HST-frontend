@@ -9,6 +9,7 @@ import {
   PhoneInTalk,
   Group,
   LocalConvenienceStore,
+  AssignmentTurnedIn,
  } from "@material-ui/icons";
 import {
   Box,
@@ -21,6 +22,10 @@ import {
   ListItemText,
 } from "@material-ui/core";
 const DrawerData = ({ opendrawer, setopendrawer }) => {
+  const logout =() =>{
+    localStorage.removeItem("admin")
+    window.location.reload()
+  }
   const history = useHistory()
   return (
     <div>
@@ -82,6 +87,20 @@ const DrawerData = ({ opendrawer, setopendrawer }) => {
               <LocalConvenienceStore />
             </ListItemIcon>
             <ListItemText primary="Price Calculator" />
+          </ListItem>
+           {/* Purchased orders */}
+           <ListItem button onClick={()=>history.push("/admin/purchased")}>
+            <ListItemIcon>
+              <AssignmentTurnedIn/>
+            </ListItemIcon>
+            <ListItemText primary="Purchased Orders"/>
+          </ListItem>
+          {/* Logout */}
+          <ListItem button onClick={logout}>
+            <ListItemIcon>
+              <AssignmentTurnedIn/>
+            </ListItemIcon>
+            <ListItemText primary="Logout"/>
           </ListItem>
         </List>
       </SwipeableDrawer>

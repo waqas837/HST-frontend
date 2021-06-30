@@ -37,6 +37,7 @@ import { Close } from "@material-ui/icons";
 import toast, { Toaster } from "react-hot-toast";
 import DrawerData from "../DrawerData/DrawerData";
 import AdminSignUp from "./AdminSignUp";
+import Users from "../UserPanel/Users";
 // import AddHotelManager from "./AddHotelManger/AddHotelManager";
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -211,40 +212,7 @@ const Admin = () => {
       {/* add the hotel manager */}
       {/* <AddHotelManager openfour={openfour} setopenfour={setopenfour}/> */}
       {/* navbar */}
-      <AppBar position="static" color="inherit">
-        <Toolbar>
-          {/* menu icon button */}
-          <IconButton onClick={() => setopendrawer(true)}>
-            <Menu style={{ color: "rgb(254,170,2)" }} />
-          </IconButton>
-          {/* logo */}
-          <Button
-            style={{ width: "10%" }}
-            size="small"
-            onClick={() => history.push("/")}
-            className={classes.title}
-          >
-            <Typography
-              variant="h6"
-              color="secondary"
-              style={{ color: "hotpink" }}
-              className={classes.titleTwo}
-            >
-              <img width="80px" src={logo} alt="" />
-            </Typography>
-          </Button>
-          {admin ? (
-            <Button
-              onClick={logoutAdmin}
-              variant="contained"
-              size="small"
-              style={{ background: "rgb(254,170,2)", color: "black" }}
-            >
-              Logout
-            </Button>
-          ) : null}
-        </Toolbar>
-      </AppBar>
+     
       {/* Add new user by admin dialgue */}
       <Dialog
         onClose={() => setOpenthree(false)}
@@ -440,14 +408,7 @@ const Admin = () => {
       </Dialog>
 
       {admin ? (
-        <span>
-        <Typography
-        variant="h5"
-        color="secondary"
-        style={{textAlign:"center"}}
-        >welcome admin</Typography>
-     
-    </span>
+        <Users/>
       ) : (
         <Container maxWidth="sm">
           <Grid container component={Box} my={3}>

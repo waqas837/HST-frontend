@@ -297,29 +297,9 @@ const Navbar = () => {
             to="/products"
             component={NavLink}
           >
-            Products <ExpandMore fontSize="small" />
+            Products
           </Button>
-          <Button
-            style={{ fontSize: "10px" }}
-            size="small"
-            activeClassName={classes.activeClass}
-            to="/blogs"
-            component={NavLink}
-            className={classes.title}
-          >
-            Blog
-          </Button>
-          <Button
-            style={{ fontSize: "10px" }}
-            size="small"
-            activeClassName={classes.activeClass}
-            to="/contact"
-            component={NavLink}
-            // onClick={() => history.push("/")}
-            className={classes.title}
-          >
-            Contact
-          </Button>
+          
 
           <>
             <Box style={{ marginLeft: "auto" }}>
@@ -347,14 +327,14 @@ const Navbar = () => {
                   </Button>
                 </>
               ) : null}
-              <Tooltip title="Customer Support Service" arrow="top">
+              {/* <Tooltip title="Customer Support Service" arrow="top">
                 <IconButton onClick={() => history.push("/help")}>
                   <ContactSupport
                     fontSize="large"
                     style={{ color: "rgb(0,7,44)" }}
                   />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
               {user ? (
                 <Button
                   onClick={() => history.push("/userDashboard")}

@@ -29,11 +29,11 @@ const Slip = ({ openfour, setopenfour, state }) => {
   const [SlipData, setSlipData] = useState();
   const email = localStorage.getItem("user");
   const ref = React.createRef();
-  var dataSet;
+  var dataSet = [];
   useEffect(() => {}, []);
 
   const closeSlip = async () => {
-    saveSlip()
+    saveSlip();
     setopenfour(false);
     toast.success("Thank you for buying our products.Good Luck!");
     setTimeout(() => {
@@ -48,31 +48,20 @@ const Slip = ({ openfour, setopenfour, state }) => {
       console.log(error);
     }
   };
-  //call data
-
+ 
 
   const saveSlip = async () => {
     // const {data} = await axios.put(`${url}/user/aftersalesemptycart/${email}`)
     try {
-      state.map((val) => {
-        if(val.qty>0){
-        return  dataSet = {
-            title: val.title,
-            totalPrice,
-            oneProduct: val.price,
-            image: val.selectedFile,
-          }
-        }
-      }
-      );
+      state.map((val, index) => val.qty > 0 && dataSet.push(val));
       toast.success("Thank you for buying our products.Good Luck!");
       const data = await axios.post(`${url}/user/saveSlip/${email}`, dataSet);
-      // setopenfour(false);
+      setopenfour(false);
     } catch (error) {
       console.log(error);
     }
   };
-   
+
   var totalPrice = _.sum(state.map((val) => val.price * val.qty));
   return (
     <div>
@@ -139,12 +128,16 @@ const Slip = ({ openfour, setopenfour, state }) => {
                     <TableRow key={index}>
                       <TableCell component="th" scope="row">
                         <CheckCircleOutline fontSize="large" color="primary" />{" "}
-                        <img
-                          src={row.selectedFile}
-                          width="70px"
-                          height="70px"
-                          alt=""
-                        />
+                        {row.selectedFile ? (
+                          <img
+                            src={row.selectedFile}
+                            width="70px"
+                            height="70px"
+                            alt=""
+                          />
+                        ) : (
+                          row.title
+                        )}
                       </TableCell>
                       <TableCell align="left">Rs.{row.price}/-</TableCell>
                     </TableRow>

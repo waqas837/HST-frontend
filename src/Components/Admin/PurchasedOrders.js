@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Drawer from "./Drawer";
 import Filebase from "react-file-base64";
 import { grey } from "@material-ui/core/colors";
 import logo from "../../images/logo.png";
-import { Menu, Create, MonetizationOn, Description } from "@material-ui/icons";
+import {
+  AddOutlined,
+  Menu,
+  Create,
+  MonetizationOn,
+  Description,
+} from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { BeatLoader, ClipLoader } from "react-spinners";
-import Iframe from "react-iframe";
 import axios from "axios";
 import { url } from "../../Api/ApiRoutes";
 import {
@@ -26,15 +30,16 @@ import {
   Dialog,
   Button,
   Input,
+  DialogContent,
   DialogContentText,
   DialogTitle,
   makeStyles,
   AppBar,
   Toolbar,
-  Badge,
 } from "@material-ui/core";
 import { Edit, Delete, Close } from "@material-ui/icons";
 import toast, { Toaster } from "react-hot-toast";
+import DrawerData from "../DrawerData/DrawerData";
 // import AddHotelManager from "../AddHotelManger/AddHotelManager";
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -72,32 +77,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
-  const user = localStorage.getItem("user");
-  const [opendrawer, setopendrawer] = useState(null);
+const PurchasedOrders = () => {
   const classes = useStyles();
   const history = useHistory();
   const [loadingtable, setloadingtable] = useState(null);
   useEffect(() => {
     getData();
-  }, [user]);
+  }, []);
   var min = 0;
   const [state, setstate] = useState([]);
   const [stateS, setstateS] = useState([]);
+  const [image, setimage] = useState("");
   const [loadingS, setloadingS] = useState(false);
   const [opentwo, setOpentwo] = useState(false);
   const [openthree, setOpenthree] = useState(false);
-  const [image, setimage] = useState("");
-  const [showimage, setshowimage] = useState(false);
-  // this is for add hotel manager
   const [id, setid] = useState();
   const [update, setupdate] = useState();
-  //show image
-  const showimg = (link) => {
-    setimage(link);
-    setshowimage(true);
+  const [editload, seteditload] = useState(null);
+  const [opendrawer, setopendrawer] = useState(false);
+  const [newloading, setnewloading] = useState(false);
+  // sendlink
+  const sendlink = async (id) => {
+    try {
+      setnewloading(true);
+      const { data } = await axios.post(`${url}/user/update3d/${id}`, image);
+      setnewloading(false);
+      if (data.success) {
+        toast.success("Link sent successfully!");
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+      setnewloading(false);
+    }
   };
-
   // add a new user
   async function addProduct(e) {
     e.preventDefault();
@@ -134,9 +149,10 @@ const Dashboard = () => {
   //show full list data get
   const getData = async () => {
     setloadingtable(true);
-    const { data } = await axios.get(`${url}/user/orders/${user}`);
+    const { data } = await axios.get(`${url}/user/allOrders`);
+    console.log(data);
     setstate(
-      data.data.filter(
+      data.fulldata.filter(
         (thing, index, self) =>
           index ===
           self.findIndex(
@@ -150,16 +166,17 @@ const Dashboard = () => {
 
     setloadingtable(false);
   };
-
   //   array of an object
   function handleCloseTwo() {
     setOpentwo(false);
   }
   async function edit(id) {
+    seteditload(true);
     setOpentwo(true);
     setid(id);
     const { data } = await axios.get(`${url}/user/findSingleProduct/${id}`);
     setupdate(data.data);
+    seteditload(false);
   }
   // UPDATE User
   async function updateProduct() {
@@ -190,25 +207,15 @@ const Dashboard = () => {
   }
   return (
     <div>
-      <Drawer opendrawer={opendrawer} setopendrawer={setopendrawer} />
-
-      <Dialog open={showimage} onClose={() => setshowimage(false)}>
-        {/* <IconButton onClick={()=>setshowimage(false)}>Close</IconButton> */}
-        <Box textAlign="center" my={3}>
-          <Iframe
-            url={image}
-            width="100%"
-            height="370px"
-            id="myId"
-            className="myClassname"
-            display="initial"
-            position="relative"
-          />
-        </Box>
-      </Dialog>
-      <AppBar position="relative" style={{ backgroundColor: "white" }}>
+      <Toaster />
+      <DrawerData opendrawer={opendrawer} setopendrawer={setopendrawer} />
+      {/* add the hotel manager */}
+      {/* <AddHotelManager openfour={openfour} setopenfour={setopenfour}/> */}
+      {/* navbar */}
+      <AppBar position="static" color="inherit">
         <Toolbar>
-          <IconButton onClick={() => setopendrawer(true)} fontSize="small">
+          {/* menu icon button */}
+          <IconButton onClick={() => setopendrawer(true)}>
             <Menu style={{ color: "rgb(254,170,2)" }} />
           </IconButton>
           {/* logo */}
@@ -221,7 +228,7 @@ const Dashboard = () => {
             <Typography
               variant="h6"
               color="secondary"
-              style={{ color: "hotpink", marginLeft: "15px" }}
+              style={{ color: "hotpink" }}
               className={classes.titleTwo}
             >
               <img width="80px" src={logo} alt="" />
@@ -229,9 +236,6 @@ const Dashboard = () => {
           </Button>
         </Toolbar>
       </AppBar>
-
-      <Toaster />
-
       {/* Add new product by admin dialgue */}
       <Dialog
         onClose={() => setOpenthree(false)}
@@ -319,7 +323,14 @@ const Dashboard = () => {
                 }
               />
               <br />
-              <br />
+              <Input
+                fullWidth
+                onChange={(e) => setstateS({ ...stateS, view: e.target.value })}
+                endAdornment={<Description color="primary" fontSize="small" />}
+                type="text"
+                placeholder="Enter image link for 360 view"
+                style={{ marginBottom: "10px", marginTop: "9px" }}
+              />
               {loadingS ? (
                 <Button
                   fullWidth
@@ -380,7 +391,7 @@ const Dashboard = () => {
             </Grid>
           </Grid>
         </DialogTitle>
-        <DialogContentText>
+        <DialogContent>
           <Divider />
 
           <Container>
@@ -391,65 +402,88 @@ const Dashboard = () => {
                 <ClipLoader />
               ) : (
                 <>
-                  <Input
-                    onChange={(e) =>
-                      setstateS({ ...stateS, title: e.target.value })
-                    }
-                    type="text"
-                    placeholder="Update Product Title"
-                    style={{ marginBottom: "10px" }}
-                    defaultValue={
-                      update.title === "" ? (
-                        <ClipLoader size="5" />
-                      ) : (
-                        update.title
-                      )
-                    }
-                  />
-                  <br />
-                  <Input
-                    onChange={(e) =>
-                      setstateS({ ...stateS, price: e.target.value })
-                    }
-                    type="text"
-                    placeholder="Update Prodcut Price"
-                    style={{ marginBottom: "10px" }}
-                    defaultValue={
-                      update.price === "" ? (
-                        <ClipLoader size="5" />
-                      ) : (
-                        update.price
-                      )
-                    }
-                  />
-                  <br />
-                  <Input
-                    onChange={(e) => setstateS({ description: e.target.value })}
-                    type="text"
-                    placeholder="Update Prodcut description"
-                    style={{ marginBottom: "10px" }}
-                    defaultValue={
-                      update.description === "" ? (
-                        <ClipLoader size="5" />
-                      ) : (
-                        update.description
-                      )
-                    }
-                  />
-                  <Filebase
-                    type="file"
-                    multiple={false}
-                    onDone={({ base64 }) =>
-                      setstateS({ ...stateS, selectedFile: base64 })
-                    }
-                  />
-                  <img
-                    src={update.selectedFile}
-                    width="50px"
-                    height="50px"
-                    style={{ borderRadius: "20px", marginLeft: "-120px" }}
-                    alt=""
-                  />
+                  {editload ? (
+                    <p>...</p>
+                  ) : (
+                    <div>
+                      <Input
+                        onChange={(e) =>
+                          setstateS({ ...stateS, title: e.target.value })
+                        }
+                        type="text"
+                        placeholder="Update Product Title"
+                        style={{ marginBottom: "10px" }}
+                        defaultValue={
+                          update.title === "" ? (
+                            <ClipLoader size="5" />
+                          ) : (
+                            update.title
+                          )
+                        }
+                      />
+                      <br />
+                      <Input
+                        onChange={(e) =>
+                          setstateS({ ...stateS, price: e.target.value })
+                        }
+                        type="text"
+                        placeholder="Update Prodcut Price"
+                        style={{ marginBottom: "10px" }}
+                        defaultValue={
+                          update.price === "" ? (
+                            <ClipLoader size="5" />
+                          ) : (
+                            update.price
+                          )
+                        }
+                      />
+                      <br />
+                      <Input
+                        onChange={(e) =>
+                          setstateS({ description: e.target.value })
+                        }
+                        type="text"
+                        placeholder="Update Prodcut description"
+                        style={{ marginBottom: "10px" }}
+                        defaultValue={
+                          update.description === "" ? (
+                            <ClipLoader size="5" />
+                          ) : (
+                            update.description
+                          )
+                        }
+                      />
+
+                      <Filebase
+                        type="file"
+                        multiple={false}
+                        onDone={({ base64 }) =>
+                          setstateS({ ...stateS, selectedFile: base64 })
+                        }
+                      />
+                      <img
+                        src={update.selectedFile}
+                        width="50px"
+                        height="50px"
+                        style={{ borderRadius: "20px", marginLeft: "-120px" }}
+                        alt=""
+                      />
+                      <br />
+                      <Input
+                        onChange={(e) => setstateS({ view: e.target.value })}
+                        type="text"
+                        placeholder="Enter image link for 360 view"
+                        style={{ marginBottom: "10px" }}
+                        defaultValue={
+                          update.description === "" ? (
+                            <ClipLoader size="5" />
+                          ) : (
+                            update.view
+                          )
+                        }
+                      />
+                    </div>
+                  )}
                 </>
               )}
 
@@ -461,6 +495,7 @@ const Dashboard = () => {
                     marginBottom: "10px",
                     backgroundColor: "rgb(254,181,2)",
                     color: "black",
+                    borderRadius: "0px",
                   }}
                   color="primary"
                   startIcon={<ClipLoader size="10" color="black" />}
@@ -473,6 +508,7 @@ const Dashboard = () => {
                     marginBottom: "10px",
                     backgroundColor: "rgb(254,181,2)",
                     color: "black",
+                    borderRadius: "0px",
                   }}
                   color="primary"
                   onClick={updateProduct}
@@ -482,7 +518,7 @@ const Dashboard = () => {
               )}
             </Box>
           </Container>
-        </DialogContentText>
+        </DialogContent>
       </Dialog>
       <Container>
         <Grid container component={Box} ml={1} mt={3} textAlign="center">
@@ -493,7 +529,7 @@ const Dashboard = () => {
               style={{ color: "rgb(254,170,2)" }}
               component={Box}
             >
-              My Orders
+              All Purchased Orders
             </Typography>
           </Grid>
           {/* colomn2 */}
@@ -514,29 +550,34 @@ const Dashboard = () => {
           <Divider />
         </Grid>
       </Container>
-     {loadingtable?<Box textAlign="center"><BeatLoader/></Box>:
       <Container style={{ width: "80%" }} maxWidth="md">
-        {/* <TableContainer component={Paper}>
+        <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead style={{ background: grey[900] }}>
               <TableRow>
                 <TableCell
                   style={{ fontWeight: "bolder", color: "whitesmoke" }}
                 >
-                  Order
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bolder", color: "whitesmoke" }}
-                  align="center"
-                >
-                  Total
+                  Purchased Id
                 </TableCell>
 
                 <TableCell
                   style={{ fontWeight: "bolder", color: "whitesmoke" }}
                   align="center"
                 >
-                  Status
+                  Title
+                </TableCell>
+                <TableCell
+                  style={{ fontWeight: "bolder", color: "whitesmoke" }}
+                  align="center"
+                >
+                  Price
+                </TableCell>
+                <TableCell
+                  style={{ fontWeight: "bolder", color: "whitesmoke" }}
+                  align="center"
+                >
+                  Send Status
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -546,46 +587,66 @@ const Dashboard = () => {
                   <BeatLoader size="15" color="rgb(254,170,2)" />
                 </Box>
               ) : (
-                
-                 
+                state.map((row) => (
+                  <TableRow>
+                    <TableCell>{row._id}</TableCell>
+                    <TableCell align="center">{row.title}</TableCell>
 
-                  
-               
+                    <TableCell align="center">{row.price}</TableCell>
+                    <TableCell align="center">
+                      {row.image ? (
+                        <div>
+                          <Input
+                            onChange={(e) =>
+                              setimage({ ...image, pimage: e.target.value })
+                            }
+                            placeholder="Paste link for 360 image"
+                            style={{ width: "210px" }}
+                          />
+                          {newloading ? (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={
+                                row.image ? () => sendlink(row._id) : null
+                              }
+                              size="small"
+                            >
+                              ...
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={
+                                row.image ? () => sendlink(row._id) : null
+                              }
+                              size="small"
+                            >
+                              Send Link
+                            </Button>
+                          )}
+                        </div>
+                      ) : null}
+                    </TableCell>
+
+                    {/* <TableCell align="center">
+                    <IconButton onClick={() => edit(row._id)}>
+                      <Edit color="primary" />
+                    </IconButton>
+                    <IconButton onClick={() => delet(row._id)}>
+                      <Delete color="secondary" />
+                    </IconButton>
+                  </TableCell> */}
+                  </TableRow>
+                ))
               )}
             </TableBody>
           </Table>
-        </TableContainer> */}
-
-        <Box m={2}>
-          <Paper elevation={3}>
-            {state.map((val) => (
-              <div>
-                <li align="left">{val.title}</li>
-                <li align="center">{val.price}</li>
-                <li align="center">
-                  <Badge badgeContent="Purchased" color="primary" />
-                </li>
-                <li align="center">
-                  {val.pimage ? (
-                    <Box ml={2}>
-                      <Button
-                        variant="contained"
-                        onClick={() => showimg(val.pimage)}
-                        color="primary"
-                        size="small"
-                      >
-                        Show Image
-                      </Button>
-                    </Box>
-                  ) : null}
-                </li>
-              </div>
-            ))}
-          </Paper>
-        </Box>
-      </Container>}
+        </TableContainer>
+      </Container>
     </div>
   );
 };
 
-export default Dashboard;
+export default PurchasedOrders;

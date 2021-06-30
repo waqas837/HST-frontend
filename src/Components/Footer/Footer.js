@@ -48,8 +48,9 @@ const Footer = () => {
             height="60px" alt=""/>
             <br/>
             <Typography variant="caption">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            HTS software is providing services of selling building material and construction services and consultancy
+
+
             </Typography>
             <br/>
            <Box display={{xs:"none",sm:"none"}}>
@@ -68,7 +69,7 @@ const Footer = () => {
                <Grid xs={12} sm={6} md={3} lg={3} xl={3} style={{marginLeft:"-70px",marginTop:"20px"}} component={Box} display={{xs:"inline",sm:"inline",md:"none",lg:"none",xl:"none"}}>
     <Grid style={{display:"flex" ,justifyContent:"space-between"}}>
      <Box mr={4} style={{marginLeft:"60px"}}>
-     <Typography variant="body1" color="initial"
+     {/* <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Products</Typography><br/>
     {
         state.map((val)=>(
@@ -89,7 +90,7 @@ const Footer = () => {
     >{val.title}</Typography>
             </Box>
         ))
-    } 
+    }  */}
      </Box>
     <Box mr={4}>
     <Typography variant="body1" color="initial"
@@ -116,7 +117,7 @@ const Footer = () => {
                <Grid xs={12} sm={6} md={3} lg={3} xl={3} style={{marginTop:"20px"}} component={Box} display={{xs:"none",sm:"none",md:"inline",lg:"inline",xl:"inline"}}>
     <Grid style={{display:"flex" ,justifyContent:"space-between"}}>
      <Box mr={4} style={{marginLeft:"60px"}}>
-     <Typography variant="body1" color="initial"
+     {/* <Typography variant="body1" color="initial"
     style={{fontWeight:"bold"}}>Products</Typography><br/>
     {state.map((val)=>
         <Box mb={2}><Typography variant="body1" color="initial"
@@ -134,7 +135,7 @@ const Footer = () => {
     >{val.title}</Typography>
             </Box>
         ))
-    }
+    } */}
      </Box>
     <Box mr={4}>
     <Typography variant="body1" color="initial"

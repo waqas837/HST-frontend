@@ -264,6 +264,20 @@ const [opendrawer,setopendrawer] = useState(false);
                
               />
               <br />
+              <Input
+                fullWidth
+                onChange={(e) =>
+                  setstateS({ ...stateS, price: e.target.value })
+                }
+                endAdornment={
+                  <Description color="primary" fontSize="small" />
+                }
+                type="text"
+                placeholder="Enter Price"
+                style={{ marginBottom: "10px" }}
+               
+              />
+              <br />
             
               {loadingS ? (
                 <Button
@@ -345,6 +359,16 @@ const [opendrawer,setopendrawer] = useState(false);
                     placeholder="Update Service Title"
                     style={{ marginBottom: "10px" }}
                     defaultValue={update.title===""?<ClipLoader size="5"/>:update.title}
+                  />
+                  <br />
+                  <Input
+                    onChange={(e) =>
+                      setstateS({ ...stateS, price: e.target.value })
+                    }
+                    type="text"
+                    placeholder="Update Service Price"
+                    style={{ marginBottom: "10px" }}
+                    defaultValue={update.title===""?<ClipLoader size="5"/>:update.price}
                   />
                   <br />
                   
@@ -433,7 +457,9 @@ const [opendrawer,setopendrawer] = useState(false);
                 <TableCell style={{ fontWeight: "bolder",color:"whitesmoke" }} align="center">
                   Title
                 </TableCell>
-             
+                <TableCell style={{ fontWeight: "bolder",color:"whitesmoke" }} align="center">
+                  Price
+                </TableCell>
                 <TableCell style={{ fontWeight: "bolder",color:"whitesmoke" }} align="center">
                   Description
                 </TableCell>
@@ -448,6 +474,7 @@ const [opendrawer,setopendrawer] = useState(false);
                 <TableRow>
                   <TableCell>{row._id}</TableCell>
                   <TableCell align="center">{row.title}</TableCell>
+                  <TableCell align="center">{row.price}</TableCell>
                   <TableCell align="center">{row.description}</TableCell>
                   <TableCell align="center">
                     <IconButton onClick={() => edit(row._id)}>
