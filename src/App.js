@@ -27,6 +27,7 @@ import PriceCalculator from "./Components/PriceCalculator/PriceCalculator";
 import UserPriceCalculator from "./Components/PriceCalculatorUser/UserPriceCalculator";
 import Help from "./Components/Help/Help";
 import PurchasedOrders from "./Components/Admin/PurchasedOrders";
+import ImageCrud from "./Components/Admin/ImageCrud";
 const font = "'Roboto', sans-serif;";
 const theme = createMuiTheme({
   typography: {
@@ -124,6 +125,10 @@ function App() {
             <Navbar />
             <Products />
             <Footer />
+          </Route>
+          {/* image crud */}
+          <Route exact path="/admin/image">
+          <ImageCrud/>
           </Route>
         </Router>
       </div>

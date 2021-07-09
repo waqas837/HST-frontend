@@ -1,5 +1,5 @@
 import React from "react";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import logo from "../../images/logo.png";
 import {
   Home,
@@ -10,7 +10,9 @@ import {
   Group,
   LocalConvenienceStore,
   AssignmentTurnedIn,
- } from "@material-ui/icons";
+  ImageSearch,
+  ExitToApp,
+} from "@material-ui/icons";
 import {
   Box,
   Divider,
@@ -22,11 +24,11 @@ import {
   ListItemText,
 } from "@material-ui/core";
 const DrawerData = ({ opendrawer, setopendrawer }) => {
-  const logout =() =>{
-    localStorage.removeItem("admin")
-    window.location.reload()
-  }
-  const history = useHistory()
+  const logout = () => {
+    localStorage.removeItem("admin");
+    window.location.reload();
+  };
+  const history = useHistory();
   return (
     <div>
       <SwipeableDrawer
@@ -34,7 +36,7 @@ const DrawerData = ({ opendrawer, setopendrawer }) => {
         onClose={() => setopendrawer(false)}
         anchor="left"
       >
-        <List  style={{width:"270px"}} >
+        <List style={{ width: "270px" }}>
           {/* logo */}
           <ListItem button>
             <img src={logo} width="100px" height="60px" alt="" />
@@ -54,21 +56,21 @@ const DrawerData = ({ opendrawer, setopendrawer }) => {
             <ListItemText primary="Home" />
           </ListItem>
           {/* Add new user*/}
-          <ListItem button onClick={()=>history.push("/admin/users")}>
+          <ListItem button onClick={() => history.push("/admin/users")}>
             <ListItemIcon>
-            <Group fontSize="small" />
+              <Group fontSize="small" />
             </ListItemIcon>
             <ListItemText primary="Users" />
           </ListItem>
           {/* Products */}
-          <ListItem button onClick={()=>history.push("/admin/products")}>
+          <ListItem button onClick={() => history.push("/admin/products")}>
             <ListItemIcon>
               <LocalMall />
             </ListItemIcon>
             <ListItemText primary="Products" />
           </ListItem>
           {/* Blog */}
-          <ListItem button  onClick={()=>history.push("/admin/services")}> 
+          <ListItem button onClick={() => history.push("/admin/services")}>
             <ListItemIcon>
               <MarkunreadMailbox />
             </ListItemIcon>
@@ -82,25 +84,35 @@ const DrawerData = ({ opendrawer, setopendrawer }) => {
             <ListItemText primary="Contact" />
           </ListItem>
           {/* Price calcultor */}
-          <ListItem button onClick={()=>history.push("/admin/priceCalculator")}>
+          <ListItem
+            button
+            onClick={() => history.push("/admin/priceCalculator")}
+          >
             <ListItemIcon>
               <LocalConvenienceStore />
             </ListItemIcon>
             <ListItemText primary="Price Calculator" />
           </ListItem>
-           {/* Purchased orders */}
-           <ListItem button onClick={()=>history.push("/admin/purchased")}>
+          {/* Purchased orders */}
+          <ListItem button onClick={() => history.push("/admin/purchased")}>
             <ListItemIcon>
-              <AssignmentTurnedIn/>
+              <AssignmentTurnedIn />
             </ListItemIcon>
-            <ListItemText primary="Purchased Orders"/>
+            <ListItemText primary="Purchased Orders" />
+          </ListItem>
+          {/* image crud */}
+          <ListItem button onClick={() => history.push("/admin/image")}>
+            <ListItemIcon>
+              <ImageSearch />
+            </ListItemIcon>
+            <ListItemText primary="Buildings" />
           </ListItem>
           {/* Logout */}
           <ListItem button onClick={logout}>
             <ListItemIcon>
-              <AssignmentTurnedIn/>
+              <ExitToApp />
             </ListItemIcon>
-            <ListItemText primary="Logout"/>
+            <ListItemText primary="Logout" />
           </ListItem>
         </List>
       </SwipeableDrawer>

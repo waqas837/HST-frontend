@@ -191,7 +191,7 @@ const CartAddedItems = () => {
     // }
   }
   //  this is the function for remove the items
-  //DELETE USER
+ 
   async function remove(id) {
     setremoveloading(true);
     const email = { user };

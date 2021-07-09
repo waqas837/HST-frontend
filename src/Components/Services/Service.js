@@ -246,7 +246,7 @@ const Service = () => {
                     >
                       Details
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="contained"
                       onClick={() => addToCart(val._id)}
                       style={{
@@ -258,7 +258,7 @@ const Service = () => {
                       }}
                     >
                       Add to cart
-                    </Button>
+                    </Button> */}
                   </Box>
                 </Box>
               </Grid>

@@ -18,16 +18,16 @@ const Body = () => {
         id="text"
         variant="h4"
       >
-        Build Your Dream <br/> With Passion
+        Welcome to  <br/> HST Construction
       </Typography>
       <Typography
       className={classes.responsive}
       style={{width:"90%",marginBottom:"15px",color:"white"}}
         >
-        Lorem ipsum dolor sit amet, consectetur <br /> adipiscing elit.
-        Vestibulum libero eget <br /> ligulaa nec, maximus interdum augue.
+        {/* Lorem ipsum dolor sit amet, consectetur <br /> adipiscing elit.
+        Vestibulum libero eget <br /> ligulaa nec, maximus interdum augue. */}
       </Typography>
-      <Button
+      {/* <Button
       className={classes.responsive}
         variant="contained"
         size="small"
@@ -39,7 +39,7 @@ const Body = () => {
         }}
       >
         Learn more
-      </Button>
+      </Button> */}
       </Grid>
     </Grid>
     </div> 
