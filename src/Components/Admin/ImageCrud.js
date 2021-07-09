@@ -133,10 +133,11 @@ const ImageCrud = () => {
     setfile(e.target.files[0]);
   };
   const uploadImage = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     var fdata = new FormData();
     fdata.append("image", file);
     await axios.post(`${url}/user/imageCrud`, fdata);
+    window.location.reload()
   };
   return (
     <div>
